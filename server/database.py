@@ -21,6 +21,7 @@ class VectorDatabase:
         if all_ids:
             self.collection.delete(ids=all_ids)
 
+<<<<<<< HEAD
     def add_files(self, files: List[Tuple[str, str]]) -> None:
         """
         [("path1", "file_content1"), ...]
