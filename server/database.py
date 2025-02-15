@@ -2,6 +2,7 @@ from chromadb import Collection
 import chromadb
 from typing import List, Tuple, Any
 
+
 class VectorDatabase:
     collection: Collection
 
@@ -21,15 +22,14 @@ class VectorDatabase:
         if all_ids:
             self.collection.delete(ids=all_ids)
 
-<<<<<<< HEAD
     def add_files(self, files: List[Tuple[str, str]]) -> None:
         """
         [("path1", "file_content1"), ...]
         """
         if not files:
             return
-        
-         # Separate out the file paths and contents
+
+        # Separate out the file paths and contents
         file_paths = [entry[0] for entry in files]
         file_contents = [entry[1] for entry in files]
 
@@ -38,9 +38,7 @@ class VectorDatabase:
 
         # Add to Chroma collection
         self.collection.add(
-            documents=file_contents,
-            metadatas=metadatas,
-            ids=file_paths
+            documents=file_contents, metadatas=metadatas, ids=file_paths
         )
 
     def delete_files(self, files: List[Tuple[str, str]]) -> None:
@@ -62,16 +60,15 @@ class VectorDatabase:
         Flattens the output for a single query to avoid nested lists.
         """
         results = self.collection.query(
-            query_texts=[query],  # Single query -> shape is 1 x k
-            n_results=k
+            query_texts=[query], n_results=k  # Single query -> shape is 1 x k
         )
-        
+
         # The default Chroma structure for a single query is nested, e.g.:
         # results["ids"] = [["file1.txt", "file2.txt"]]
         #
         # We want to flatten this to a single list, e.g.:
         # results["ids"] = ["file1.txt", "file2.txt"]
-        
+
         if results.get("ids"):
             results["ids"] = results["ids"][0]
         if results.get("documents"):
@@ -80,5 +77,6 @@ class VectorDatabase:
             results["metadatas"] = results["metadatas"][0]
         if results.get("embeddings"):
             results["embeddings"] = results["embeddings"][0]
-        
+
         return results
+
