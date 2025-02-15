@@ -1,0 +1,5 @@
+(executable
+ (public_name lentil)
+ (name lentil)
+ (preprocess (pps ppx_jane))
+ (libraries core core_unix.command_unix core_unix.filename_unix lentil))
