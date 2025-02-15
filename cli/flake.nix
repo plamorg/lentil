@@ -12,7 +12,7 @@
         (system: f (import nixpkgs { inherit system; }));
     in {
       packages = eachSystem (pkgs:
-        let ocamlPackages = pkgs.ocamlPackages;
+        let ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_1;
         in {
           default = ocamlPackages.buildDunePackage {
             pname = "lentil";
@@ -24,7 +24,7 @@
         });
 
       devShells = eachSystem (pkgs:
-        let ocamlPackages = pkgs.ocamlPackages;
+        let ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_1;
         in {
           default = pkgs.mkShell {
             packages = with ocamlPackages; [
@@ -36,6 +36,7 @@
               ocaml-lsp
               ocamlformat
               utop
+              merlin
             ];
           };
         });
