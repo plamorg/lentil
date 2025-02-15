@@ -6,8 +6,8 @@ let start_server () = print_s [%message "hi starting webserver"]
 
 let send_context () =
   (* testing for now *)
-  let files = File.get () in
-  print_s [%message (files : File.t list)]
+  let files = Context.get () in
+  print_s [%message (files : Context.t)]
 ;;
 
 let main ~serve =
