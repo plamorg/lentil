@@ -1,3 +1,3 @@
 open! Core
 
-val run : string -> string * string
+val run : string list -> string * string

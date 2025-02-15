@@ -1,9 +1,8 @@
 open! Core
 
-let process_from_string (cmd : string) : Core_unix.Process_info.t =
-  let cmd_strs = String.split cmd ~on:' ' in
-  let prog = List.hd_exn cmd_strs in
-  let args = List.tl_exn cmd_strs in
+let process_from_string (cmd : string list) : Core_unix.Process_info.t =
+  let prog = List.hd_exn cmd in
+  let args = List.tl_exn cmd in
   Core_unix.create_process ~prog ~args
 ;;
 
