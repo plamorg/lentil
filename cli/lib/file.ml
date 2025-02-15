@@ -6,36 +6,6 @@ type t =
   }
 [@@deriving sexp]
 
-(* let read_all_dir dir = *)
-(*   let dir = Core_unix.opendir dir in *)
-(*   let rec f () = *)
-(*     match Core_unix.readdir_opt dir with *)
-(*     | None -> [] *)
-(*     | Some file -> file :: f () *)
-(*   in *)
-(*   let res = f () in *)
-(*    Core_unix.closedir dir; *)
-(*     res *)
-(* ;; *)
-
-(* let get () = *)
-(*   let rec f dir = *)
-(*     read_all_dir dir *)
-(*     |> List.filter ~f:(fun name -> not ((String.equal name ".") || (String.equal name ".."))) *)
-(*     |> List.map ~f:(fun name -> *)
-(*       let path = Filename.concat dir name in *)
-(*       Filename. *)
-(*       if Core_unix.is_directory path *)
-(*       then f path *)
-(*       else ( *)
-(*         let content = In_channel.read_all path in *)
-(*         [ { path; content } ])) *)
-(*     |> List.concat *)
-(*   in *)
-(*   let wd = Filename.current_dir_name in *)
-(*   f wd *)
-(* ;; *)
-
 let get () =
   let rec f dir =
     Core_unix.ls_dir_detailed dir
