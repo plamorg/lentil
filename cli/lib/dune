@@ -1,4 +1,4 @@
 (library
  (name lentil)
  (preprocess (pps ppx_jane))
- (libraries core))
+ (libraries core core_unix))
