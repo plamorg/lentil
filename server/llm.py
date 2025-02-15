@@ -16,6 +16,7 @@ class Response(BaseModel):
 
 class Backend(Enum):
     OLLAMA = "ollama"
+    OPENAI = "openai"
 
 
 class Llm:
@@ -27,8 +28,9 @@ class Llm:
     def query(self, prompt: str) -> Optional[Response]:
         match self.backend:
             case Backend.OLLAMA:
-                print(f"querying ollama with prompt: {prompt}")
                 return self._ollama_query(prompt)
+            case Backend.OPENAI:
+                return self._openai_query(prompt)
 
     def _ollama_query(self, prompt: str) -> Optional[Response]:
         from ollama import chat
@@ -48,3 +50,16 @@ class Llm:
             response = Response.model_validate_json(response.message.content)
             return response
         return None
+
+    def _openai_query(self, prompt: str) -> Optional[Response]:
+        from openai import OpenAI
+
+        client = OpenAI()
+
+        response = client.beta.chat.completions.parse(
+            model="gpt-4o-2024-08-06",
+            messages=[{"role": "user", "content": prompt}],
+            response_format=Response,
+        )
+
+        return response.choices[0].message.parsed

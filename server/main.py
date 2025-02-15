@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 
 vdb = VectorDatabase()
-llm = Llm(backend=Backend.OLLAMA)
+llm = Llm(backend=Backend.OPENAI)
 
 
 def error_response(message: str, status_code: int = 400):
