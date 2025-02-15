@@ -7,4 +7,4 @@ type t =
   }
 [@@deriving sexp]
 
-val get : unit -> t
+val get : string list -> t
