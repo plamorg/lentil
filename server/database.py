@@ -21,8 +21,11 @@ class VectorDatabase:
         if all_ids:
             self.collection.delete(ids=all_ids)
 
-    def add_files(self):
+    def add_files(self, files):
         """
         [("path1", "file_content1"), ...]
         """
+        pass
+
+    def query(self, prompt: str, n: int):
         pass
