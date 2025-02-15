@@ -1,4 +1,4 @@
-type t = {
-  path : string;
-  content : string;
-}
+type t =
+  { path : string
+  ; content : string
+  }
