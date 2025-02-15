@@ -1,0 +1,12 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "Lentil server"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=0.6.3",
+    "flask>=3.1.0",
+    "flask-cors>=5.0.0",
+    "pytest>=8.3.4",
+]
