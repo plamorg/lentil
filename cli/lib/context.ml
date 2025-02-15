@@ -9,5 +9,6 @@ type t =
 
 let get cmd =
   print_s [%message (cmd : string list)];
-  { stdout = "test stdout"; stderr = "test stderr"; files = File.get () }
+  let stdout, stderr = Process.run cmd in
+  { stdout; stderr; files = File.get () }
 ;;
