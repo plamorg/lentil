@@ -1,6 +1,6 @@
 from chromadb import Collection
 import chromadb
-
+from typing import List, Tuple, Any
 
 class VectorDatabase:
     collection: Collection
@@ -9,7 +9,7 @@ class VectorDatabase:
         """
         Initialize the database.
         """
-        client = chromadb.Client()
+        client = chromadb.PersistentClient()
         self.collection = client.get_or_create_collection(name="lentil_collection")
 
     def clear(self):
@@ -21,8 +21,63 @@ class VectorDatabase:
         if all_ids:
             self.collection.delete(ids=all_ids)
 
-    def add_files(self):
+    def add_files(self, files: List[Tuple[str, str]]) -> None:
         """
         [("path1", "file_content1"), ...]
         """
-        pass
+        if not files:
+            return
+        
+         # Separate out the file paths and contents
+        file_paths = [entry[0] for entry in files]
+        file_contents = [entry[1] for entry in files]
+
+        # Create metadata dicts (optional but often useful)
+        metadatas = [{"path": entry[0]} for entry in files]
+
+        # Add to Chroma collection
+        self.collection.add(
+            documents=file_contents,
+            metadatas=metadatas,
+            ids=file_paths
+        )
+
+    def delete_files(self, files: List[Tuple[str, str]]) -> None:
+        """
+        Deletes a list of documents by their file paths.
+
+        :param files: List of tuples, e.g. [("path1", "file_content1"), ...]
+                      Only the first element (path) is used to find and delete.
+        """
+        if not files:
+            return
+
+        file_paths = [entry[0] for entry in files]
+        self.collection.delete(ids=file_paths)
+
+    def query(self, query: str, k: int) -> Any:
+        """
+        Returns the top-k most similar documents for the given query string.
+        Flattens the output for a single query to avoid nested lists.
+        """
+        results = self.collection.query(
+            query_texts=[query],  # Single query -> shape is 1 x k
+            n_results=k
+        )
+        
+        # The default Chroma structure for a single query is nested, e.g.:
+        # results["ids"] = [["file1.txt", "file2.txt"]]
+        #
+        # We want to flatten this to a single list, e.g.:
+        # results["ids"] = ["file1.txt", "file2.txt"]
+        
+        if results.get("ids"):
+            results["ids"] = results["ids"][0]
+        if results.get("documents"):
+            results["documents"] = results["documents"][0]
+        if results.get("metadatas"):
+            results["metadatas"] = results["metadatas"][0]
+        if results.get("embeddings"):
+            results["embeddings"] = results["embeddings"][0]
+        
+        return results
