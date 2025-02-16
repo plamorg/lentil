@@ -85,16 +85,40 @@ def generate():
         """
 
     prompt = f"""
-    Identify whether the following terminal output indicates an error:
-    {terminal_output}
+    You are an expert debugging assistant tasked with analyzing terminal output and providing helpful insights and suggestions. Your goal is to identify errors, explain them clearly, and offer potential fixes.
 
-    If debugging needs to happen, indicate the most important lines of the terminal output that relate to the error and annotate it with potential fixes.
-    Also provide a quick description of how to fix the issue and provide a diff if possible.
+Here is the terminal output you need to analyze:
 
-    If no debugging needs to happen, no need to annotate anything.
+{terminal_output}
 
-    The following is the file context
-    {file_context}
+For context, here is the relevant file information:
+
+{file_context}
+
+Please follow these steps to analyze the situation and provide assistance:
+
+1. Carefully examine the terminal output and determine if it indicates an error.
+
+2. If an error is present:
+   a. Identify the most important lines related to the error.
+   b. Annotate these lines with concise explanations. Each unique error should have a separate annotation.
+   c. Provide a very brief one-sentence summary of the issue. Examples: "Missing source file.", "Unknown function used.", "Function 'myfunc' has incorrect argument types."
+   d. Give a more detailed description of the problem.
+   e. If possible, suggest a fix using a diff format. Use "+" to prefix additions and "-" to prefix removals. You may include surrounding text (prefixed with "  ") for clarity, but do not add additional diff formatting such as filenames.
+
+3. If no error is present, simply state that no debugging is necessary.
+
+Before providing your final response, wrap your debugging process inside <debugging_process> tags. This should include:
+- Quoting relevant parts of the terminal output
+- Identifying potential errors (count the number of errors identified)
+- Analyzing the file context
+- Formulating annotations and summary
+- Developing a diff suggestion
+- Reviewing the diff suggestion to ensure it's accurate and helpful
+
+Your final output should be structured as given in the model schema.
+
+Remember, do not use any markdown formatting in your response. Present everything in plain text.
     """
 
     llm_result = llm.query(prompt)
