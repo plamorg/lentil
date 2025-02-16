@@ -8,6 +8,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
+  marginTop: "32px",
   borderColor: "red",
 };
 
@@ -44,7 +45,7 @@ export default function App() {
             <ErrorMessage errMsg={response.summary} />
             <SuggestedFix diff={response.diff} />
             <Annotations annotations={response.annotations} />
-            <p>{response.description}</p>
+            <p className="font-serif mt-4 mb-8">{response.description}</p>
           </div>
         ) : (
           <ClipLoader

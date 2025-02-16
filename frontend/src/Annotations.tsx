@@ -22,7 +22,7 @@ function AnnotationsTable({ annotations }: { annotations: Annotation[] }) {
 export function Annotations({ annotations }: { annotations: Annotation[] }) {
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-xl font-medium my-3">Here's why.</h2>
+      <h2 className="text-xl font-medium mb-3 mt-5">Here's why.</h2>
       <AnnotationsTable annotations={annotations} />
     </div>
   );
