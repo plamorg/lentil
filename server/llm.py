@@ -57,7 +57,7 @@ class Llm:
         client = OpenAI()
 
         response = client.beta.chat.completions.parse(
-            model="gpt-4o-2024-08-06",
+            model="o3-mini",
             messages=[{"role": "user", "content": prompt}],
             response_format=Response,
         )
