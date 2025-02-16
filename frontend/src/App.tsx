@@ -4,7 +4,7 @@ import SuggestedFix from "./SuggestedFix.tsx"
 import Annotations from "./Annotations.tsx"
 
 export default function App() {
-  const errMsg = "You have an undefined variable";
+  const errMsg = "You have an undefined variable.";
   const diffLines = [
     "+ add this line",
     "- remove this line"
@@ -27,8 +27,8 @@ export default function App() {
 
   return (
     <>
-      <div className="h-screen w-full max-w-2xl m-auto mt-8 flex flex-col gap-8">
-        <Header />
+      <div className="h-screen w-full max-w-4xl m-auto mt-8 flex flex-col gap-4">
+        {/* <Header /> */}
         <ErrorMessage errMsg={errMsg} />
         <SuggestedFix diff={diff} />
         <Annotations annotations={annotations} />

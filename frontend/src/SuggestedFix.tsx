@@ -3,8 +3,8 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 function SuggestedFixHeader() {
   return (
     <div className="flex flex-row justify-between">
-      <h2 className="text-xl font-semibold">Suggested Fix</h2>
-      <p className="text-sm text-gray-500">(diff)</p>
+      <h2 className="text-xl font-medium mb-2">We suggest the following fixes:</h2>
+      { /* <p className="text-sm text-gray-500">(diff)</p> */ }
     </div>
   )
 }

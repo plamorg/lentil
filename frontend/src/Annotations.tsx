@@ -7,15 +7,18 @@ type Annotation = {
 
 function AnnotationsTable({ annotations }: { annotations: Annotation[] }) {
   return (
-    <div className="flex flex-col gap-4">
-      {annotations.map((annotation, index) => (
-        <Annotation
-          key={index}
-          output={annotation.output}
-          comment={annotation.comment}
-        />
-      ))}
-    </div>
+      <div className="flex flex-col">
+        <h2 className="text-xl font-medium mt-4 mb-6">Here's why.</h2>
+          <div className="flex flex-col gap-4">
+            {annotations.map((annotation, index) => (
+              <Annotation
+                key={index}
+                output={annotation.output}
+                comment={annotation.comment}
+              />
+            ))}
+          </div>
+      </div>
   );
 }
 

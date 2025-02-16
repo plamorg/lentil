@@ -1,7 +1,7 @@
 export default function ErrorMessage({ errMsg }: { errMsg: string }) {
   return (
     <>
-      <div className="text-red-600 text-xl font-medium">
+      <div className="text-5xl font-medium mt-16 mb-8">
         {errMsg}
       </div>
     </>
