@@ -1,8 +1,10 @@
+import Header from "./Header.tsx"
+
 export default function App() {
   return (
     <>
-      <div className="h-screen w-full flex flex-row justify-center items-center">
-        <h1 className="w-fit underline">Lentil</h1>
+      <div className="h-screen w-full max-w-2xl m-auto mt-8">
+        <Header />
       </div>
     </>
   )
