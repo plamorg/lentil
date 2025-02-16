@@ -37,6 +37,11 @@
               ocamlformat
               utop
               merlin
+              cohttp
+              async
+              cohttp-async
+              yojson
+              ppx_deriving_yojson
             ];
           };
         });
