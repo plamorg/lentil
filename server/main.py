@@ -1,13 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
+
 import math
 
 from database import VectorDatabase
 from llm import Llm, Backend
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/")
 CORS(app)
+socketio = SocketIO(app)
 
 vdb = VectorDatabase()
 llm = Llm(backend=Backend.OPENAI)
@@ -15,6 +18,13 @@ llm = Llm(backend=Backend.OPENAI)
 
 def error_response(message: str, status_code: int = 400):
     return jsonify({"error": message}), status_code
+
+
+@app.route("/")
+def index():
+    if app.static_folder:
+        return send_from_directory(app.static_folder, "index.html")
+    return error_response("Static folder not set")
 
 
 @app.route("/hello")
@@ -50,6 +60,8 @@ def generate():
     stdout = context.get("stdout")
     stderr = context.get("stderr")
     files = [(f.get("path"), f.get("content")) for f in context.get("files", [])]
+
+    emit("loading", {"message": "Generating response..."})
 
     vdb.clear()
     vdb.add_files(files)
@@ -90,6 +102,7 @@ def generate():
     if not llm_result:
         return error_response("Response could not be created")
 
+    emit("response", {"message": llm_result.model_dump_json()})
     return llm_result.model_dump_json()
 
 
@@ -97,4 +110,4 @@ if __name__ == "__main__":
     import sys
 
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
-    app.run(debug=True, port=port)
+    socketio.run(app)
