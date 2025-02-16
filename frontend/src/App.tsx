@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <>
-      <div className="h-screen w-full max-w-4xl m-auto mt-8 flex flex-col gap-4">
+      <div className="h-screen p-8 max-w-4xl m-auto mt-8 flex flex-col gap-4">
         {/* <Header /> */}
         <ErrorMessage errMsg={errMsg} />
         <SuggestedFix diff={diff} />
