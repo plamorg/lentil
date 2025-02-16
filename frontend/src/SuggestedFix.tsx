@@ -1,3 +1,5 @@
+import SyntaxHighlighter from 'react-syntax-highlighter'
+
 function SuggestedFixHeader() {
   return (
     <div className="flex flex-row justify-between">
@@ -10,11 +12,9 @@ function SuggestedFixHeader() {
 function SuggestedFixBody({ diff } : { diff: string }) {
   return (
     <div className="border rounded-lg bg-gray-50 p-4">
-      <pre className="whitespace-pre-wrap font-mono text-sm">
-        <code>
-          {diff}
-        </code>
-      </pre>
+      <SyntaxHighlighter language="diff">
+        {diff}
+      </SyntaxHighlighter>
     </div>
   )
 }
