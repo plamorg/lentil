@@ -90,7 +90,7 @@ def generate():
 
     If debugging needs to happen, indicate the most important lines of the terminal output that relate to the error and annotate it with a concise explanation. Each unique error should be a different annotation.
     In addition, provide a very quick one-sentence summary of the issue. Keep the quick description extremely concise - for example: "You have a missing source file.", or "You are using an unknown function.", or "The function 'myfunc' has wrong argument types.". In addition, provide a more detailed description.
-    Also provide a diff of a suggested change, if possible. For the diff DO NOT use markdown formatting, just plain text. Each addition should start with the prefix "+ ", and each removal should start with the prefix "- ".
+    Also provide a diff of a suggested change, if possible. For the diff DO NOT use markdown formatting, just plain text. Each addition should start with the prefix "+ ", and each removal should start with the prefix "- ". You may add surrounding text if it helps with clarity (prefix with "  " to make sure indentation is consistent with the changes), but do not add additional diff formatting such as filenames.
     Do not use markdown formatting, just plain text.
 
     If no debugging needs to happen, no need to annotate anything and no description or diff is needed.
