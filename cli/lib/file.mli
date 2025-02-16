@@ -4,6 +4,6 @@ type t =
   { path : string
   ; content : string
   }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 val get : unit -> t list

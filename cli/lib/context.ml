@@ -5,10 +5,9 @@ type t =
   ; stderr : string
   ; files : File.t list
   }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 let get cmd =
-  print_s [%message (cmd : string list)];
   let stdout, stderr = Process.run cmd in
   { stdout; stderr; files = File.get () }
 ;;
