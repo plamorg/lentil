@@ -1,7 +1,7 @@
 import Header from "./Header.tsx"
 import ErrorMessage from "./ErrorMessage.tsx"
 import SuggestedFix from "./SuggestedFix.tsx"
-import Annotation from "./Annotation.tsx"
+import Annotations from "./Annotations.tsx"
 
 export default function App() {
   const errMsg = "You have an undefined variable";
@@ -31,14 +31,7 @@ export default function App() {
         <Header />
         <ErrorMessage errMsg={errMsg} />
         <SuggestedFix diff={diff} />
-        <div className="flex flex-col gap-4">
-        {annotations.map((annotation, index) => (
-          <Annotation 
-            key={index}
-            output={annotation.output}
-            comment={annotation.comment} />
-        ))}
-        </div>
+        <Annotations annotations={annotations} />
       </div>
     </>
   )
