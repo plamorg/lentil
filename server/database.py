@@ -23,9 +23,6 @@ class VectorDatabase:
             self.collection.delete(ids=all_ids)
 
     def add_files(self, files: List[Tuple[str, str]]) -> None:
-        """
-        [("path1", "file_content1"), ...]
-        """
         if not files:
             return
 
@@ -36,10 +33,21 @@ class VectorDatabase:
         # Create metadata dicts (optional but often useful)
         metadatas = [{"path": entry[0]} for entry in files]
 
-        # Add to Chroma collection
+        # 1. Check which of these IDs already exist
+        existing = self.collection.get(ids=file_paths)
+        existing_ids = set(existing.get("ids", []))  # e.g. {"path1", "path2", ...}
+
+        # 2. Delete the overlapping IDs (i.e., paths that already exist)
+        if existing_ids:
+            self.collection.delete(ids=list(existing_ids))
+
+        # 3. Add all new documents (both brand-new and replacements)
         self.collection.add(
-            documents=file_contents, metadatas=metadatas, ids=file_paths
+            documents=file_contents,
+            metadatas=metadatas,
+            ids=file_paths
         )
+
 
     def delete_files(self, files: List[Tuple[str, str]]) -> None:
         """
