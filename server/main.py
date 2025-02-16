@@ -118,6 +118,8 @@ Before providing your final output, wrap your analysis inside <error_analysis> t
 Remember, the quality of the diff is crucial. Ensure that your suggested changes are precise, relevant, and likely to resolve the identified issue without introducing new problems.
 
 After completing your analysis, provide your final output structured according to the specified format, including the description, diff, and annotations.
+
+Do not use markdown formatting, just plain text. Properly indent your diff so that it is consistent with the original code.
     """
 
     llm_result = llm.query(prompt)
