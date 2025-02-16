@@ -1,5 +1,5 @@
-open! Core
-open! Async
+open Core
+open Async
 module Context = Lentil.Context
 module File = Lentil.File
 module Api = Lentil.Api
@@ -13,21 +13,22 @@ let send_context cmd =
   Api.send ctx
 ;;
 
-let main cmd ~serve =
-  match serve with
-  | true -> never_returns (Server.run ())
-  | false ->
-    (match cmd with
-     | None -> error_s [%message "cmd empty liao"] |> ok_exn
-     | Some cmd -> send_context cmd)
+let main () =
+  let args = Sys.get_argv () |> Array.to_list |> List.tl_exn in
+  let serve, cmd_args =
+    List.partition_tf args ~f:(fun arg -> String.equal arg "--serve")
+  in
+  if not (List.is_empty serve)
+  then never_returns (Server.run ())
+  else (
+    match cmd_args with
+    | [] ->
+      print_endline "No command entered";
+      exit 1
+    | _ -> send_context cmd_args)
 ;;
 
-let command =
-  Command.async
-    ~summary:"lentil"
-    (let%map_open.Command serve = flag "--serve" no_arg ~doc:"start webserver"
-     and cmd = anon (maybe (non_empty_sequence_as_list ("cmd" %: string))) in
-     fun () -> main cmd ~serve)
+let () =
+  don't_wait_for (main ());
+  never_returns (Scheduler.go ())
 ;;
-
-let () = Command_unix.run command
