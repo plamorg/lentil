@@ -11,6 +11,6 @@ let send context =
   let headers = Cohttp.Header.add headers "Content-Type" "application/json" in
   let%bind res, body = Cohttp_async.Client.post ~body ~headers uri in
   let%bind body = Cohttp_async.Body.to_string body in
-  print_s [%message (res : Cohttp.Response.t) (body : string)];
+  (* print_s [%message (res : Cohttp.Response.t) (body : string)]; *)
   return ()
 ;;
