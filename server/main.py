@@ -85,18 +85,39 @@ def generate():
         """
 
     prompt = f"""
-    Identify whether the following terminal output indicates an error:
-    {terminal_output}
+    You are an expert software developer and debugger. Your task is to analyze file context and terminal output to identify errors, provide annotations, and suggest fixes. Here's the information you need to work with:
 
-    If debugging needs to happen, indicate the most important lines of the terminal output that relate to the error and annotate it with a concise explanation. Each unique error should be a different annotation.
-    In addition, provide a very quick one-sentence summary of the issue. Keep the quick description extremely concise - for example: "You have a missing source file.", or "You are using an unknown function.", or "The function 'myfunc' has wrong argument types.". In addition, provide a more detailed description.
-    Also provide a diff of a suggested change, if possible. For the diff DO NOT use markdown formatting, just plain text. Each addition should start with the prefix "+ ", and each removal should start with the prefix "- ". You may add surrounding text if it helps with clarity (prefix with "  " to make sure indentation is consistent with the changes), but do not add additional diff formatting such as filenames.
-    Do not use markdown formatting, just plain text.
+{file_context}
 
-    If no debugging needs to happen, no need to annotate anything and no description or diff is needed.
+{terminal_output}
 
-    The following is the file context:
-    {file_context}
+Please follow these steps to complete your task:
+
+1. Carefully analyze the terminal output to determine if there are any errors.
+
+2. If you identify an error, proceed with the following steps. If no error is detected, simply state that no debugging is needed.
+
+3. For each error identified:
+   a. Locate the most important lines in the terminal output related to the error.
+   b. Create an annotation for each unique error, explaining it concisely.
+   c. Provide a one-sentence summary of the issue. Keep it extremely concise, e.g., "Missing source file", "Unknown function used", or "Incorrect argument types in 'myfunc'".
+   d. Give a more detailed description of the error and its implications.
+   e. Generate a diff suggesting a fix for the error. The diff should be in plain text format, with additions prefixed by "+ " and removals by "- ". You may include surrounding text (prefixed with "  ") for clarity, but do not add any additional diff formatting.
+
+4. Format your response according to the specified output structure, which includes sections for description, diff, and annotations.
+
+Before providing your final output, wrap your analysis inside <error_analysis> tags. In this analysis:
+- Break down the terminal output and identify potential errors. List each error found.
+- Examine the file context to understand the code structure and potential issues.
+- Match each identified error with the relevant code in the file context.
+- For each error, draft your annotation, summary, and detailed description.
+- Brainstorm potential fixes for each error, considering different approaches.
+- Carefully consider the diff you'll suggest, ensuring it directly addresses the identified issue and follows best practices for the programming language in question.
+- Review your proposed diff to ensure it's clear, concise, and effective in resolving the error without introducing new problems.
+
+Remember, the quality of the diff is crucial. Ensure that your suggested changes are precise, relevant, and likely to resolve the identified issue without introducing new problems.
+
+After completing your analysis, provide your final output structured according to the specified format, including the description, diff, and annotations.
     """
 
     llm_result = llm.query(prompt)
