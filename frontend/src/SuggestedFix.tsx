@@ -11,8 +11,8 @@ function SuggestedFixHeader() {
 
 function SuggestedFixBody({ diff } : { diff: string }) {
   return (
-    <div className="border rounded-lg bg-gray-50 p-4">
-      <SyntaxHighlighter language="diff">
+    <div className="rounded-lg bg-gray-50 p-4">
+      <SyntaxHighlighter className="syntaxhighlighter" language="diff">
         {diff}
       </SyntaxHighlighter>
     </div>
