@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import math
 
@@ -6,7 +6,7 @@ from database import VectorDatabase
 from llm import Llm, Backend
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/")
 CORS(app)
 
 vdb = VectorDatabase()
@@ -15,6 +15,13 @@ llm = Llm(backend=Backend.OPENAI)
 
 def error_response(message: str, status_code: int = 400):
     return jsonify({"error": message}), status_code
+
+
+@app.route("/")
+def index():
+    if app.static_folder:
+        return send_from_directory(app.static_folder, "index.html")
+    return error_response("Static folder not set")
 
 
 @app.route("/hello")
