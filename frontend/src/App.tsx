@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ErrorMessage from "./ErrorMessage.tsx";
 import SuggestedFix from "./SuggestedFix.tsx";
 import { Annotations, Annotation } from "./Annotations.tsx";
+import Loading from "./Loading.tsx";
 import { socket } from "./socket.ts";
 
 interface Response {
@@ -40,12 +41,7 @@ export default function App() {
             <p className="font-serif mt-4 mb-8">{response.description}</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
-            <h1 className="text-5xl ovo-regular mt-16 mb-8">Cooking your lentils...</h1>
-            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
-            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
-            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
-          </div>
+          <Loading />
         )}
       </div>
     </>
