@@ -4,7 +4,7 @@ type t =
   { path : string
   ; content : string
   }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 let get () =
   let rec f dir =

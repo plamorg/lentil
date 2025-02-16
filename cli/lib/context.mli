@@ -5,6 +5,6 @@ type t =
   ; stderr : string
   ; files : File.t list
   }
-[@@deriving sexp]
+[@@deriving sexp, yojson]
 
 val get : string list -> t
