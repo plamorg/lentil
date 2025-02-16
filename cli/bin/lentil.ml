@@ -7,6 +7,9 @@ module Server = Lentil.Server
 
 let send_context cmd =
   let ctx = Context.get cmd in
+  (* TODO: colour *)
+  print_string ctx.stdout;
+  print_string ctx.stderr;
   Api.send ctx
 ;;
 
