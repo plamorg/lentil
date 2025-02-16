@@ -24,26 +24,32 @@
         });
 
       devShells = eachSystem (pkgs:
-        let ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_1;
-        in {
-          default = pkgs.mkShell {
-            packages = with ocamlPackages; [
-              ocaml
-              dune_3
-              base
-              core
-              core_unix
-              ocaml-lsp
-              ocamlformat
-              utop
-              merlin
-              cohttp
-              async
-              cohttp-async
-              yojson
-              ppx_deriving_yojson
-            ];
-          };
-        });
+        let
+          ocamlPackages = pkgs.ocaml-ng.ocamlPackages_5_1;
+          ocamlDeps = with ocamlPackages; [
+            ocaml
+            dune_3
+            base
+            core
+            core_unix
+            ocaml-lsp
+            ocamlformat
+            utop
+            merlin
+            cohttp
+            async
+            cohttp-async
+            yojson
+            ppx_deriving_yojson
+          ];
+          pythonDeps = with pkgs.python3.pkgs; [ numpy pip ];
+          otherDeps = with pkgs; [
+            uv
+            stdenv.cc.cc.lib
+            gcc
+            python3
+          ];
+          allPackages = ocamlDeps ++ pythonDeps ++ otherDeps;
+        in { default = pkgs.mkShell { packages = allPackages; }; });
     };
 }
