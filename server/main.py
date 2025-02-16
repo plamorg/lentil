@@ -40,6 +40,7 @@ def generate():
     {
         "stdout": "...",
         "stderr": "...",
+        "cmd": "...",
         "files": [
             {"path": "...", "content": "..."},
             {"path": "...", "content": "..."},
@@ -59,6 +60,7 @@ def generate():
 
     stdout = context.get("stdout")
     stderr = context.get("stderr")
+    cmd = context.get("cmd")
     files = [(f.get("path"), f.get("content")) for f in context.get("files", [])]
 
     socketio.emit("loading", {"message": "Generating response..."})
@@ -85,7 +87,8 @@ def generate():
         """
 
     prompt = f"""
-    Identify whether the following terminal output indicates an error:
+    The following terminal command was run: {cmd}
+    Identify whether the following terminal output in response to the terminal command indicates an error:
     {terminal_output}
 
     If debugging needs to happen, indicate the most important lines of the terminal output that relate to the error and annotate it with a concise explanation. Each unique error should be a different annotation.
