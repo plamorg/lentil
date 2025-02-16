@@ -1,16 +1,8 @@
-import { useEffect, useState, CSSProperties } from "react";
+import { useEffect, useState } from "react";
 import ErrorMessage from "./ErrorMessage.tsx";
 import SuggestedFix from "./SuggestedFix.tsx";
 import { Annotations, Annotation } from "./Annotations.tsx";
 import { socket } from "./socket.ts";
-import ClipLoader from "react-spinners/ClipLoader";
-
-const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  marginTop: "32px",
-  borderColor: "red",
-};
 
 interface Response {
   summary: string;
@@ -48,14 +40,12 @@ export default function App() {
             <p className="font-serif mt-4 mb-8">{response.description}</p>
           </div>
         ) : (
-          <ClipLoader
-            color={"#ff0000"}
-            loading={isLoading}
-            cssOverride={override}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <div className="flex flex-col gap-4">
+            <h1 className="text-5xl ovo-regular mt-16 mb-8">Cooking your lentils...</h1>
+            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
+            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
+            <div className="w-full h-6 bg-gray-200 rounded animate-pulse"></div>
+          </div>
         )}
       </div>
     </>
