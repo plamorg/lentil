@@ -29,6 +29,7 @@ let main () =
 ;;
 
 let () =
-  don't_wait_for (main ());
-  never_returns (Scheduler.go ())
+  Thread_safe.block_on_async_exn (fun () ->
+    let%bind () = main () in
+    Writer.flushed (force Writer.stdout))
 ;;
