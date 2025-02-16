@@ -3,8 +3,7 @@ open! Async
 module Context = Lentil.Context
 module File = Lentil.File
 module Api = Lentil.Api
-
-let start_server () = print_s [%message "hi starting webserver"]
+module Server = Lentil.Server
 
 let send_context cmd =
   let ctx = Context.get cmd in
@@ -13,7 +12,7 @@ let send_context cmd =
 
 let main cmd ~serve =
   match serve with
-  | true -> return (start_server ())
+  | true -> never_returns (Server.run ())
   | false ->
     (match cmd with
      | None -> error_s [%message "cmd empty liao"] |> ok_exn
