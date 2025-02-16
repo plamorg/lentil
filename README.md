@@ -13,7 +13,7 @@ AI-powered compiler feedback assistant
 After cloning the repository, you need to install the webserver by adding a symlink:
 ```sh
 mkdir ~/.lentil
-ln -s path/to/lentil/server ~/.lentil/server
+ln -s /full/path/to/lentil/server ~/.lentil/server
 ```
 
 ### Usage
