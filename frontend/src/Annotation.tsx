@@ -1,7 +1,13 @@
-import { useState } from "react"
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
+import { useState } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 
-export default function Annotation({ output, comment }: { output: string; comment: string }) {
+export default function Annotation({
+  output,
+  comment,
+}: {
+  output: string;
+  comment: string;
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -10,7 +16,9 @@ export default function Annotation({ output, comment }: { output: string; commen
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex flex-row justify-between items-center">
-        <pre className="font-mono text-sm select-none cursor-pointer">{output}</pre>
+        <pre className="font-mono text-sm select-none cursor-pointer whitespace-pre-wrap">
+          {output}
+        </pre>
         {isExpanded ? (
           <ChevronUpIcon className="h-5 w-5 text-gray-500" />
         ) : (
@@ -19,9 +27,7 @@ export default function Annotation({ output, comment }: { output: string; commen
       </div>
       {isExpanded && (
         <div className="mt-4 pt-4 border-t border-gray-200">
-          <p className="text-gray-600 text-sm">
-            {comment}
-          </p>
+          <pre className="text-gray-600 text-sm whitespace-pre-wrap">{comment}</pre>
         </div>
       )}
     </div>

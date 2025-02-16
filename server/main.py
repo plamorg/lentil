@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 import math
 
@@ -10,7 +10,7 @@ from llm import Llm, Backend
 
 app = Flask(__name__, static_folder="../frontend/dist", static_url_path="/")
 CORS(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 vdb = VectorDatabase()
 llm = Llm(backend=Backend.OPENAI)
@@ -61,7 +61,7 @@ def generate():
     stderr = context.get("stderr")
     files = [(f.get("path"), f.get("content")) for f in context.get("files", [])]
 
-    emit("loading", {"message": "Generating response..."})
+    socketio.emit("loading", {"message": "Generating response..."})
 
     vdb.clear()
     vdb.add_files(files)
@@ -90,10 +90,13 @@ def generate():
 
     If debugging needs to happen, indicate the most important lines of the terminal output that relate to the error and annotate it with potential fixes.
     Also provide a quick description of how to fix the issue and provide a diff if possible.
+    For the diff DO NOT use markdown formatting, just plain text.
+    Also, provide a very concise one-sentence summary of the problem in addition to a more detailed description.
+    Do not use markdown formatting, just plain text.
 
-    If no debugging needs to happen, no need to annotate anything.
+    If no debugging needs to happen, no need to annotate anything and no description or diff is needed.
 
-    The following is the file context
+    The following is the file context:
     {file_context}
     """
 
@@ -102,7 +105,7 @@ def generate():
     if not llm_result:
         return error_response("Response could not be created")
 
-    emit("response", {"message": llm_result.model_dump_json()})
+    socketio.emit("response", {"message": llm_result.model_dump_json()})
     return llm_result.model_dump_json()
 
 

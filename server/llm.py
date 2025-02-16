@@ -9,6 +9,7 @@ class Annotation(BaseModel):
 
 
 class Response(BaseModel):
+    summary: str
     description: str
     diff: str
     annotations: List[Annotation]
